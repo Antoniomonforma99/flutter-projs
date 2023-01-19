@@ -1,19 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class BottomNav extends StatefulWidget {
-  const BottomNav({super.key});
+import 'package:bottom_nav_bar/Screens/screen1.dart';
+import 'package:bottom_nav_bar/Screens/screen2.dart';
+import 'package:bottom_nav_bar/Screens/screen3.dart';
 
+class BottomNav extends StatefulWidget {
+  int _actualScreen = 0;
+
+  BottomNav(int actualScreen);
   @override
   State<BottomNav> createState() => _BottomNav();
 }
 
 class _BottomNav extends State<BottomNav> {
-  int index = 0;
+  int _actualScreen = 0;
 
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: index,
+      currentIndex: _actualScreen,
       type: BottomNavigationBarType.shifting,
       selectedItemColor: Colors.black,
       iconSize: 27.0,
