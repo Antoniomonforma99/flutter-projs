@@ -19,6 +19,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<List<Pokemon>> _pokemonList;
+  
+
+
 
   Future<List<Pokemon>> _getPokemons() async {
     final response =
@@ -49,11 +52,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: prefer_const_constructors
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/pokemon': (context) => _MyAppState(),
+        '/pokemon/$id' :(context) => const 
+      },
       title: 'PokeDex',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Material App Bar'),
+          title: const Text('PokeDex'),
         ),
         body: FutureBuilder(
           future: _pokemonList,
@@ -108,7 +117,8 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(
                       builder: (context) => PokemonDetailPage(count),
                     ),
