@@ -1,10 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:bottom_nav_bar/Screens/screen1.dart';
-import 'package:bottom_nav_bar/Screens/screen2.dart';
-import 'package:bottom_nav_bar/Screens/screen3.dart';
-
 class BottomNav extends StatefulWidget {
   int _actualScreen = 0;
 

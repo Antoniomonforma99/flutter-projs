@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   //int index = 0;
   int _actualScreen = 0;
   // ignore: non_constant_identifier_names
-  List<Widget> _screens = [Screen1(), Screen2(), Screen3()];
+  final List<Widget> _screens = [Screen1(), Screen2(), Screen3()];
 
   @override
   Widget build(BuildContext context) {

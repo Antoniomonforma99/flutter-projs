@@ -13,18 +13,18 @@ class Screen1 extends StatefulWidget {
 }
 
 class _Screen1State extends State<Screen1> {
-  late List<Recipe> _recipes;
+  late Future<List<Recipe>> _recipes;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    getRecipes();
+    _recipes = getRecipe();
   }
 
   Future<List<Recipe>> getRecipe() async {
     var uri =
-        Uri.parse('https://yummly2.p.rapidapi.com/feeds/list?limit=24&start=0');
+        Uri.parse('https://yummly2.p.rapidapi.com/feeds/list?limit=2&start=0');
 
     final response = await http.get(uri, headers: {
       "X-RapidAPI-Key": "cebc971838mshc2a7400554befd6p1d6154jsn30f8e30c5fcb",
@@ -33,28 +33,35 @@ class _Screen1State extends State<Screen1> {
     });
 
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
 
-      List _temp = [];
-
-      print(jsonData["feed"]);
+      List<Recipe> _recipes = [];
 
       for (var item in jsonData['feed']) {
-        _temp.add(item);
+        _recipes.add(Recipe(
+            item['content']['details']['name'],
+            item['content']['details']['images']['hostedLargedUrl'],
+            item['content']['details']['rating'],
+            item['content']['details']['totalTimeInSeconds']));
       }
-      return Recipe.recipesFromSnapshot(_temp);
+
+      print(_recipes);
+      return _recipes;
     } else {
       throw Exception("Error");
     }
   }
 
+/*
   Future<void> getRecipes() async {
     _recipes = await getRecipe();
     setState(() {
       _isLoading = false;
     });
-    print(_recipes);
+    //print(_recipes);
   }
+  */
 
   @override
   Widget build(BuildContext context) {
