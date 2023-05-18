@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:project/ui/screens/actors-screen.dart';
 import 'package:project/ui/screens/myprofile_screen.dart';
 import 'package:project/ui/screens/search-screen.dart';
@@ -42,7 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
             primaryColor: Colors.red,
             textTheme: Theme.of(context)
                 .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.yellow))),
+                .copyWith(bodySmall: const TextStyle(color: Colors.yellow))),
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
