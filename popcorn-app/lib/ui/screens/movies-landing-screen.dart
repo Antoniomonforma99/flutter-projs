@@ -20,8 +20,8 @@ class _MoviesLandingScreenState extends State<MoviesLandingScreen> {
   }
 
   Widget _createLandingFullView(BuildContext context) {
-    return const Column(
-      children: [
+    return Column(
+      children: const [
         TextView(
           text: constants.topRated,
         ),
