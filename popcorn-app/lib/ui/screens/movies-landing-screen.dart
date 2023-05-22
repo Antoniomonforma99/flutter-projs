@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_bloc.dart';
+import 'package:project/bloc/latest_movies/bloc/latest_movie_event.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_state.dart';
 import 'package:project/bloc/popular_movies/bloc/popular_movie_bloc.dart';
+import 'package:project/bloc/popular_movies/bloc/popular_movie_event.dart';
 import 'package:project/bloc/popular_movies/bloc/popular_movie_state.dart';
 import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_bloc.dart';
+import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_event.dart';
 import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_state.dart';
 import 'package:project/repository/movie_repository.dart';
 import 'package:project/repository/movie_repository_impl.dart';
@@ -38,20 +41,24 @@ class _MoviesLandingScreenState extends State<MoviesLandingScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider<TopRatedMovieBloc>(
-        create: (BuildContext context) => TopRatedMovieBloc(movieRepository),
+        create: (BuildContext context) =>
+            TopRatedMovieBloc(movieRepository)..add(FetchTopRatedMovies()),
       ),
       BlocProvider<LatestMovieBloc>(
-        create: (BuildContext context) => LatestMovieBloc(movieRepository),
+        create: (BuildContext context) =>
+            LatestMovieBloc(movieRepository)..add(FetchLatestMovies()),
       ),
       BlocProvider<PopularMovieBloc>(
-        create: (BuildContext context) => PopularMovieBloc(movieRepository),
+        create: (BuildContext context) =>
+            PopularMovieBloc(movieRepository)..add(FetchPopularMovies()),
       ),
     ], child: _createLandingFullView(context));
   }
 }
 
 Widget _createLandingFullView(BuildContext context) {
-  return Column(
+  return SingleChildScrollView(
+      child: Column(
     children: [
       const TextView(
         text: constants.topRated,
@@ -67,11 +74,7 @@ Widget _createLandingFullView(BuildContext context) {
                   context.watch<TopRatedMovieBloc>();
                 });
           } else if (state is TopRatedMoviesFetched) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: _createList(context, state.movies),
-            );
+            return _createList(context, state.movies);
           }
           return const Text('Text not supported');
         },
@@ -90,11 +93,7 @@ Widget _createLandingFullView(BuildContext context) {
                   context.watch<LatestMovieBloc>();
                 });
           } else if (state is LatestMoviesFetched) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: _createList(context, state.movies),
-            );
+            return _createList(context, state.movies);
           }
           return const Text('Text not supported');
         },
@@ -113,17 +112,13 @@ Widget _createLandingFullView(BuildContext context) {
                   context.watch<PopularMovieBloc>();
                 });
           } else if (state is PopularMoviesFetched) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: _createList(context, state.movies),
-            );
+            return _createList(context, state.movies);
           }
           return const Text('Text not supported');
         },
       ),
     ],
-  );
+  ));
 }
 
 class TextView extends StatelessWidget {
@@ -155,8 +150,14 @@ class TextView extends StatelessWidget {
 }
 
 Widget _createList(BuildContext context, List<Movie> movies) {
+  return ListView.builder(
+    itemCount: movies.length,
+    
+    itemBuilder: itemBuilder);
+}
+
   return Row(
-      children: List.generate(
+      children: ListView.builder(
           movies.length,
           (index) => Padding(
                 padding: const EdgeInsets.only(left: 8.0),
@@ -170,4 +171,3 @@ Widget _createList(BuildContext context, List<Movie> movies) {
                   ),
                 ),
               )));
-}
