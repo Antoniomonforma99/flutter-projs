@@ -1,11 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_bloc.dart';
-import 'package:project/model/popular_movie_response.dart';
+import 'package:flutter/material.dart';
+import 'package:project/bloc/popular_movies/bloc/popular_movie_event.dart';
+import 'package:project/bloc/popular_movies/bloc/popular_movie_state.dart';
 import 'package:project/repository/movie_repository.dart';
-
-part 'popular_movie_event.dart';
-part 'popular_movie_state.dart';
 
 class PopularMovieBloc extends Bloc<PopularMovieEvent, PopularMovieState> {
   final MovieRepository repository;

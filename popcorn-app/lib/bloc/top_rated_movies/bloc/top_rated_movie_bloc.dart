@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:project/model/top_rated_movie_response.dart';
+import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_event.dart';
+import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_state.dart';
 import 'package:project/repository/movie_repository.dart';
-
-part 'top_rated_movie_event.dart';
-part 'top_rated_movie_state.dart';
 
 class TopRatedMovieBloc extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
   final MovieRepository repository;

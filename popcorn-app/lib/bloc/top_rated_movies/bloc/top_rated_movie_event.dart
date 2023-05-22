@@ -1,4 +1,4 @@
-part of 'top_rated_movie_bloc.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 abstract class TopRatedMovieEvent {}

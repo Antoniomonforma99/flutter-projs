@@ -1,19 +1,17 @@
-class PopularMovieResponse {
+class MovieResponse {
   int? page;
-  late final List<PopularMovie> results;
+  late final List<Movie> results;
   int? totalPages;
   int? totalResults;
 
-  PopularMovieResponse(
+  MovieResponse(
       {this.page, required this.results, this.totalPages, this.totalResults});
 
-  PopularMovieResponse.fromJson(Map<String, dynamic> json) {
-    page = json["page"];
-    results = List.from(json['results'])
-        .map((e) => PopularMovie.fromJson(e))
-        .toList();
-    totalPages = json["total_pages"];
-    totalResults = json["total_results"];
+  MovieResponse.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    results = List.from(json['results']).map((e) => Movie.fromJson(e)).toList();
+    totalPages = json['total_pages'];
+    totalResults = json['total_results'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +24,7 @@ class PopularMovieResponse {
   }
 }
 
-class PopularMovie {
+class Movie {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
@@ -42,7 +40,7 @@ class PopularMovie {
   double? voteAverage;
   int? voteCount;
 
-  PopularMovie(
+  Movie(
       {this.adult,
       this.backdropPath,
       this.genreIds,
@@ -58,7 +56,7 @@ class PopularMovie {
       this.voteAverage,
       this.voteCount});
 
-  PopularMovie.fromJson(Map<String, dynamic> json) {
+  Movie.fromJson(Map<String, dynamic> json) {
     if (json["adult"] is bool) {
       adult = json["adult"];
     }

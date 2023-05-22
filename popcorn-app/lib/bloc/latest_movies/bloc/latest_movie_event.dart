@@ -1,4 +1,4 @@
-part of 'latest_movie_bloc.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 abstract class LatestMovieEvent {}

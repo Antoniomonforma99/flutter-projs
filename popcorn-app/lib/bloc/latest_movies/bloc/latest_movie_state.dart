@@ -1,4 +1,5 @@
-part of 'latest_movie_bloc.dart';
+import 'package:flutter/foundation.dart';
+import 'package:project/model/movie_response.dart';
 
 @immutable
 abstract class LatestMovieState {}
@@ -6,7 +7,7 @@ abstract class LatestMovieState {}
 class LatestMovieInitial extends LatestMovieState {}
 
 class LatestMoviesFetched extends LatestMovieState {
-  final List<LatestMovie> movies;
+  final List<Movie> movies;
 
   LatestMoviesFetched(this.movies);
 }

@@ -1,4 +1,5 @@
-part of 'top_rated_movie_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:project/model/movie_response.dart';
 
 @immutable
 abstract class TopRatedMovieState {}
@@ -6,7 +7,7 @@ abstract class TopRatedMovieState {}
 class TopRatedMovieInitial extends TopRatedMovieState {}
 
 class TopRatedMoviesFetched extends TopRatedMovieState {
-  final List<TopRatedMovie> movies;
+  final List<Movie> movies;
 
   TopRatedMoviesFetched(this.movies);
 }

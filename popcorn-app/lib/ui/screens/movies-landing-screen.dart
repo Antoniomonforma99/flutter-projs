@@ -1,6 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/bloc/latest_movies/bloc/latest_movie_bloc.dart';
+import 'package:project/bloc/latest_movies/bloc/latest_movie_state.dart';
+import 'package:project/bloc/popular_movies/bloc/popular_movie_bloc.dart';
+import 'package:project/bloc/popular_movies/bloc/popular_movie_state.dart';
+import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_bloc.dart';
+import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_state.dart';
+import 'package:project/repository/movie_repository.dart';
+import 'package:project/repository/movie_repository_impl.dart';
+import 'package:project/ui/screens/error_screen.dart';
 import 'package:project/utils/constants.dart' as constants;
+
+import '../../model/movie_response.dart';
 
 class MoviesLandingScreen extends StatefulWidget {
   const MoviesLandingScreen({super.key});
@@ -10,44 +21,109 @@ class MoviesLandingScreen extends StatefulWidget {
 }
 
 class _MoviesLandingScreenState extends State<MoviesLandingScreen> {
+  late MovieRepository movieRepository;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        body: _createLandingFullView(context));
+  void initState() {
+    super.initState();
+    movieRepository = MovieRepositoryImpl();
   }
 
-  Widget _createLandingFullView(BuildContext context) {
-    return Column(
-      children: const [
-        TextView(
-          text: constants.topRated,
-        ),
-        SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: MovieRow(),
-        ),
-        TextView(
-          text: constants.newMovies,
-        ),
-        SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: MovieRow(),
-        ),
-        TextView(
-          text: constants.popularMovies,
-        ),
-        SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            child: MovieRow())
-      ],
-    );
+  @override
+  void dispose() {
+    super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider<TopRatedMovieBloc>(
+        create: (BuildContext context) => TopRatedMovieBloc(movieRepository),
+      ),
+      BlocProvider<LatestMovieBloc>(
+        create: (BuildContext context) => LatestMovieBloc(movieRepository),
+      ),
+      BlocProvider<PopularMovieBloc>(
+        create: (BuildContext context) => PopularMovieBloc(movieRepository),
+      ),
+    ], child: _createLandingFullView(context));
+  }
+}
+
+Widget _createLandingFullView(BuildContext context) {
+  return Column(
+    children: [
+      const TextView(
+        text: constants.topRated,
+      ),
+      BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
+        builder: (context, state) {
+          if (state is TopRatedMovieInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is TopRatedMovieFetchError) {
+            return ErrorScreen(
+                message: state.message,
+                retry: () {
+                  context.watch<TopRatedMovieBloc>();
+                });
+          } else if (state is TopRatedMoviesFetched) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: _createList(context, state.movies),
+            );
+          }
+          return const Text('Text not supported');
+        },
+      ),
+      const TextView(
+        text: constants.newMovies,
+      ),
+      BlocBuilder<LatestMovieBloc, LatestMovieState>(
+        builder: (context, state) {
+          if (state is LatestMovieInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is LatestMoviesFetchError) {
+            return ErrorScreen(
+                message: state.message,
+                retry: () {
+                  context.watch<LatestMovieBloc>();
+                });
+          } else if (state is LatestMoviesFetched) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: _createList(context, state.movies),
+            );
+          }
+          return const Text('Text not supported');
+        },
+      ),
+      const TextView(
+        text: constants.popularMovies,
+      ),
+      BlocBuilder<PopularMovieBloc, PopularMovieState>(
+        builder: (context, state) {
+          if (state is PopularMovieInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is PopularMoviesFetchError) {
+            return ErrorScreen(
+                message: state.message,
+                retry: () {
+                  context.watch<PopularMovieBloc>();
+                });
+          } else if (state is PopularMoviesFetched) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: _createList(context, state.movies),
+            );
+          }
+          return const Text('Text not supported');
+        },
+      ),
+    ],
+  );
 }
 
 class TextView extends StatelessWidget {
@@ -78,26 +154,20 @@ class TextView extends StatelessWidget {
   }
 }
 
-class MovieRow extends StatelessWidget {
-  const MovieRow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-        children: List.generate(
-            10,
-            (index) => Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: const Image(
-                      height: 200,
-                      image: AssetImage('assets/images/seven.jpg'),
-                      fit: BoxFit.fill,
-                    ),
+Widget _createList(BuildContext context, List<Movie> movies) {
+  return Row(
+      children: List.generate(
+          movies.length,
+          (index) => Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image(
+                    height: 200,
+                    image: NetworkImage(constants.baseUrlPosterImage +
+                        movies[index].posterPath!),
+                    fit: BoxFit.fill,
                   ),
-                )));
-  }
+                ),
+              )));
 }
