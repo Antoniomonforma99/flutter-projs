@@ -57,68 +57,104 @@ class _MoviesLandingScreenState extends State<MoviesLandingScreen> {
 }
 
 Widget _createLandingFullView(BuildContext context) {
-  return SingleChildScrollView(
-      child: Column(
+  return ListView(
     children: [
       const TextView(
         text: constants.topRated,
       ),
-      BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
-        builder: (context, state) {
-          if (state is TopRatedMovieInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is TopRatedMovieFetchError) {
-            return ErrorScreen(
-                message: state.message,
-                retry: () {
-                  context.watch<TopRatedMovieBloc>();
-                });
-          } else if (state is TopRatedMoviesFetched) {
-            return _createList(context, state.movies);
-          }
-          return const Text('Text not supported');
-        },
-      ),
+      _topRatedMoviesBloc(),
       const TextView(
         text: constants.newMovies,
       ),
-      BlocBuilder<LatestMovieBloc, LatestMovieState>(
-        builder: (context, state) {
-          if (state is LatestMovieInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is LatestMoviesFetchError) {
-            return ErrorScreen(
-                message: state.message,
-                retry: () {
-                  context.watch<LatestMovieBloc>();
-                });
-          } else if (state is LatestMoviesFetched) {
-            return _createList(context, state.movies);
-          }
-          return const Text('Text not supported');
-        },
-      ),
+      _LatestMoviesBloc(),
       const TextView(
         text: constants.popularMovies,
       ),
-      BlocBuilder<PopularMovieBloc, PopularMovieState>(
-        builder: (context, state) {
-          if (state is PopularMovieInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is PopularMoviesFetchError) {
-            return ErrorScreen(
-                message: state.message,
-                retry: () {
-                  context.watch<PopularMovieBloc>();
-                });
-          } else if (state is PopularMoviesFetched) {
-            return _createList(context, state.movies);
-          }
-          return const Text('Text not supported');
-        },
+      _popularMoviesBloc(),
+      const SizedBox(
+        height: 20.0,
+      )
+    ],
+  );
+}
+/*
+Widget _createLandingFullView(BuildContext context) {
+  return SingleChildScrollView(
+      child: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      const TextView(
+        text: constants.topRated,
       ),
+      _topRatedMoviesBloc(),
+      const TextView(
+        text: constants.newMovies,
+      ),
+      _LatestMoviesBloc(),
+      const TextView(
+        text: constants.popularMovies,
+      ),
+      _popularMoviesBloc(),
     ],
   ));
+}
+*/
+
+BlocBuilder<PopularMovieBloc, PopularMovieState> _popularMoviesBloc() {
+  return BlocBuilder<PopularMovieBloc, PopularMovieState>(
+    builder: (context, state) {
+      if (state is PopularMovieInitial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is PopularMoviesFetchError) {
+        return ErrorScreen(
+            message: state.message,
+            retry: () {
+              context.watch<PopularMovieBloc>();
+            });
+      } else if (state is PopularMoviesFetched) {
+        return _createList(context, state.movies);
+      }
+      return const Text('Text not supported');
+    },
+  );
+}
+
+BlocBuilder<LatestMovieBloc, LatestMovieState> _LatestMoviesBloc() {
+  return BlocBuilder<LatestMovieBloc, LatestMovieState>(
+    builder: (context, state) {
+      if (state is LatestMovieInitial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is LatestMoviesFetchError) {
+        return ErrorScreen(
+            message: state.message,
+            retry: () {
+              context.watch<LatestMovieBloc>();
+            });
+      } else if (state is LatestMoviesFetched) {
+        return _createList(context, state.movies);
+      }
+      return const Text('Text not supported');
+    },
+  );
+}
+
+BlocBuilder<TopRatedMovieBloc, TopRatedMovieState> _topRatedMoviesBloc() {
+  return BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
+    builder: (context, state) {
+      if (state is TopRatedMovieInitial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is TopRatedMovieFetchError) {
+        return ErrorScreen(
+            message: state.message,
+            retry: () {
+              context.watch<TopRatedMovieBloc>();
+            });
+      } else if (state is TopRatedMoviesFetched) {
+        return _createList(context, state.movies);
+      }
+      return const Text('Text not supported');
+    },
+  );
 }
 
 class TextView extends StatelessWidget {
@@ -150,24 +186,29 @@ class TextView extends StatelessWidget {
 }
 
 Widget _createList(BuildContext context, List<Movie> movies) {
-  return ListView.builder(
-    itemCount: movies.length,
-    
-    itemBuilder: itemBuilder);
-}
-
-  return Row(
-      children: ListView.builder(
-          movies.length,
-          (index) => Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image(
-                    height: 200,
-                    image: NetworkImage(constants.baseUrlPosterImage +
-                        movies[index].posterPath!),
-                    fit: BoxFit.fill,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(
+        height: 200.0,
+        child: ListView.builder(
+            //physics: const ClampingScrollPhysics(),
+            //shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: movies.length,
+            itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image(
+                      height: 200,
+                      image: NetworkImage(constants.baseUrlPosterImage +
+                          movies[index].posterPath!),
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-              )));
+                )),
+      ),
+    ],
+  );
+}
