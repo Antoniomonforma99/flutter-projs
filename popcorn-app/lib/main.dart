@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project/ui/screens/actors-screen.dart';
+import 'package:project/ui/screens/landing-lists/actors-landing-screen.dart';
 import 'package:project/ui/screens/landing-screen.dart';
 import 'package:project/ui/screens/myprofile_screen.dart';
 import 'package:project/ui/screens/search-screen.dart';

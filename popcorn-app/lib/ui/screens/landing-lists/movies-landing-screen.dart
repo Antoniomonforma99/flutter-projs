@@ -14,7 +14,7 @@ import 'package:project/repository/movie_repository_impl.dart';
 import 'package:project/ui/screens/error_screen.dart';
 import 'package:project/utils/constants.dart' as constants;
 
-import '../../model/movie_response.dart';
+import '../../../model/movie_response.dart';
 
 class MoviesLandingScreen extends StatefulWidget {
   const MoviesLandingScreen({super.key});
@@ -192,22 +192,23 @@ Widget _createList(BuildContext context, List<Movie> movies) {
       SizedBox(
         height: 200.0,
         child: ListView.builder(
-            //physics: const ClampingScrollPhysics(),
-            //shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: movies.length,
-            itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      height: 200,
-                      image: NetworkImage(constants.baseUrlPosterImage +
-                          movies[index].posterPath!),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                )),
+          //physics: const ClampingScrollPhysics(),
+          //shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: movies.length,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                height: 200,
+                image: NetworkImage(
+                    constants.baseUrlPosterImage + movies[index].posterPath!),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ),
       ),
     ],
   );

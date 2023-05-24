@@ -12,4 +12,15 @@ class _ActorsScreenState extends State<ActorsScreen> {
   Widget build(BuildContext context) {
     return const Text('Actors-Screen');
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

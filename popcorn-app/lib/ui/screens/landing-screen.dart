@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/ui/screens/actors-screen.dart';
+import 'package:project/ui/screens/landing-lists/actors-landing-screen.dart';
 import 'package:project/ui/screens/myprofile_screen.dart';
 import 'package:project/ui/screens/search-screen.dart';
 
-import 'movies-landing-screen.dart';
+import 'landing-lists/movies-landing-screen.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
