@@ -3,3 +3,4 @@ const String topRated = 'Top Rated';
 const String newMovies = 'New Movies';
 const String popularMovies = 'Popular Movies';
 const String baseUrlPosterImage = 'https://image.tmdb.org/t/p/w780';
+const String baseUrlBackImage = 'https://image.tmdb.org/t/p/w1280';

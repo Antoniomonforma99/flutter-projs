@@ -7,17 +7,15 @@ part 'movie_detail_state.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final MovieRepository repository;
-  final String movie_id;
 
-  MovieDetailBloc(this.repository, this.movie_id)
-      : super(MovieDetailInitial()) {
+  MovieDetailBloc(this.repository) : super(MovieDetailInitial()) {
     on<FetchMovie>(_movieFetched);
   }
 
   void _movieFetched(FetchMovie event, Emitter<MovieDetailState> emit) async {
     try {
-      final movie = await repository.fetchMovie(movie_id);
-      emit((MovieDetailFetched(movie)));
+      final movie = await repository.fetchMovie(event.movieId);
+      emit(MovieDetailFetched(movie));
     } on Exception catch (e) {
       emit(MovieDetailFetchError(e.toString()));
     }

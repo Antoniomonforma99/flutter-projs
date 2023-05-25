@@ -1,5 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:project/ui/screens/details/movie-details.dart';
 import 'package:project/ui/screens/landing-lists/actors-landing-screen.dart';
 import 'package:project/ui/screens/landing-screen.dart';
 import 'package:project/ui/screens/myprofile_screen.dart';
@@ -31,6 +34,10 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) =>
           const MyProfileScreen(),
     ),
+    GoRoute(
+        path: '/movieDetail/:movieId',
+        builder: (context, state) =>
+            MovieDetails(movieId: state.pathParameters['movieId']!)),
   ],
 );
 

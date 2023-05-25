@@ -4,5 +4,6 @@ import 'package:flutter/material.dart';
 abstract class MovieDetailEvent {}
 
 class FetchMovie extends MovieDetailEvent {
-  FetchMovie();
+  final String movieId;
+  FetchMovie(this.movieId);
 }

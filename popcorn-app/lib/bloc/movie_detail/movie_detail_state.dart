@@ -5,7 +5,7 @@ abstract class MovieDetailState {}
 
 class MovieDetailInitial extends MovieDetailState {}
 
-class MovieDetailFetched extends MovieDetailInitial {
+class MovieDetailFetched extends MovieDetailState {
   final MovieDetail movie;
 
   MovieDetailFetched(this.movie);

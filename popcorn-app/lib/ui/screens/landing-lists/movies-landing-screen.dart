@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_bloc.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_event.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_state.dart';
@@ -9,12 +10,11 @@ import 'package:project/bloc/popular_movies/bloc/popular_movie_state.dart';
 import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_bloc.dart';
 import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_event.dart';
 import 'package:project/bloc/top_rated_movies/bloc/top_rated_movie_state.dart';
+import 'package:project/model/movie_response.dart';
 import 'package:project/repository/movie_repository.dart';
 import 'package:project/repository/movie_repository_impl.dart';
 import 'package:project/ui/screens/error_screen.dart';
 import 'package:project/utils/constants.dart' as constants;
-
-import '../../../model/movie_response.dart';
 
 class MoviesLandingScreen extends StatefulWidget {
   const MoviesLandingScreen({super.key});
@@ -200,11 +200,14 @@ Widget _createList(BuildContext context, List<Movie> movies) {
             padding: const EdgeInsets.only(left: 8.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image(
-                height: 200,
-                image: NetworkImage(
-                    constants.baseUrlPosterImage + movies[index].posterPath!),
-                fit: BoxFit.fill,
+              child: GestureDetector(
+                onTap: () => context.go('/movieDetail/${movies[index].id}'),
+                child: Image(
+                  height: 200,
+                  image: NetworkImage(
+                      constants.baseUrlPosterImage + movies[index].posterPath!),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ),
