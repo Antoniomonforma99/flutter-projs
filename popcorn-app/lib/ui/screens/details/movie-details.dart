@@ -81,13 +81,6 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          HeaderAndRating(size: size, movie: movie),
-        ],
-      ),
-    );
+    return HeaderAndRating(size: size, movie: movie);
   }
 }

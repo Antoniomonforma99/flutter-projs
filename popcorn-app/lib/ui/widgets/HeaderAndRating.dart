@@ -12,14 +12,52 @@ class HeaderAndRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: SizedBox(
+        height: double.infinity,
+        child: Stack(
+          children: [
+            BackButton(
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            Container(height: double.infinity, color: Colors.black),
+            LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: constraints.maxHeight / 2,
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            alignment: Alignment.bottomCenter,
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              constants.baseUrlBackImage + movie.posterPath!,
+                            ))),
+                  ),
+                ),
+              );
+            })
+          ],
+        ),
+      ),
+    );
+  }
+/*
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: size.height * 0.4 - 50,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50)),
           image: DecorationImage(
+              alignment: Alignment.bottomCenter,
               fit: BoxFit.cover,
               image: NetworkImage(
-                  constants.baseUrlBackImage + movie.posterPath!))),
+                constants.baseUrlBackImage + movie.posterPath!,
+              ))),
     );
   }
+  */
 }
