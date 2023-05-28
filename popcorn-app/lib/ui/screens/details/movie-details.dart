@@ -6,7 +6,6 @@ import 'package:project/model/movide_detail_response.dart';
 import 'package:project/repository/movie_repository.dart';
 import 'package:project/repository/movie_repository_impl.dart';
 import 'package:project/ui/screens/error_screen.dart';
-import 'package:project/ui/widgets/HeaderAndRating.dart';
 import 'package:project/utils/constants.dart' as constants;
 
 class MovieDetails extends StatefulWidget {
@@ -67,20 +66,90 @@ BlocBuilder<MovieDetailBloc, MovieDetailState> _movieDetailBloc() {
 }
 
 Widget _createDescription(BuildContext context, MovieDetail movie) {
-  Size size = MediaQuery.of(context).size;
-  return Scaffold(
-    body: Body(movie: movie),
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(scaffoldBackgroundColor: Colors.black.withOpacity(0.8)),
+    home: Scaffold(
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.8,
+            child: Image(
+              image: NetworkImage(
+                  constants.baseUrlPosterImage + movie.posterPath!),
+              height: 280,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SingleChildScrollView(
+            child: SafeArea(
+                child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                  child: Row(children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ]),
+                ),
+                SizedBox(height: 60),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                            image: NetworkImage(constants.baseUrlPosterImage +
+                                movie.posterPath!),
+                            height: 250,
+                            width: 180,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 50, top: 10),
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Colors.orange,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.orange.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 8,
+                              )
+                            ]),
+                        child: Icon(
+                          Icons.favorite_border,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )),
+          )
+        ],
+      ),
+    ),
   );
-}
-
-class Body extends StatelessWidget {
-  final MovieDetail movie;
-  const Body({super.key, required this.movie});
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return HeaderAndRating(size: size, movie: movie);
-  }
 }
