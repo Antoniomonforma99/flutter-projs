@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:project/bloc/movie_detail/movie_detail_event.dart';
 import 'package:project/model/movide_detail_response.dart';
@@ -66,90 +67,87 @@ BlocBuilder<MovieDetailBloc, MovieDetailState> _movieDetailBloc() {
 }
 
 Widget _createDescription(BuildContext context, MovieDetail movie) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(scaffoldBackgroundColor: Colors.black.withOpacity(0.8)),
-    home: Scaffold(
-      body: Stack(
-        children: [
-          Opacity(
-            opacity: 0.8,
-            child: Image(
-              image: NetworkImage(
-                  constants.baseUrlPosterImage + movie.posterPath!),
-              height: 280,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+  return Scaffold(
+    body: Stack(
+      children: [
+        Opacity(
+          opacity: 0.8,
+          child: Image(
+            image:
+                NetworkImage(constants.baseUrlPosterImage + movie.posterPath!),
+            height: 280,
+            width: double.infinity,
+            fit: BoxFit.cover,
           ),
-          SingleChildScrollView(
-            child: SafeArea(
-                child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  child: Row(children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
+        ),
+        SingleChildScrollView(
+          child: SafeArea(
+              child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Row(children: [
+                  InkWell(
+                    onTap: () {
+                      context.go('/');
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                ]),
+              ),
+              const SizedBox(height: 60),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image(
+                          image: NetworkImage(
+                              constants.baseUrlPosterImage + movie.posterPath!),
+                          height: 250,
+                          width: 180,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 50, top: 10),
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          color: Colors.orange,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.orange.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 8,
+                            )
+                          ]),
+                      child: const Icon(
+                        Icons.favorite_border,
                         color: Colors.white,
                         size: 30,
                       ),
-                    ),
-                  ]),
+                    )
+                  ],
                 ),
-                SizedBox(height: 60),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image(
-                            image: NetworkImage(constants.baseUrlPosterImage +
-                                movie.posterPath!),
-                            height: 250,
-                            width: 180,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 50, top: 10),
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            color: Colors.orange,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.orange.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 8,
-                              )
-                            ]),
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )),
-          )
-        ],
-      ),
+              )
+            ],
+          )),
+        )
+      ],
     ),
   );
 }

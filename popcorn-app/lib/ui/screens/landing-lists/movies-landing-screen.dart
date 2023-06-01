@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project/bloc/latest_movies/bloc/latest_movie_bloc.dart';
@@ -57,24 +58,26 @@ class _MoviesLandingScreenState extends State<MoviesLandingScreen> {
 }
 
 Widget _createLandingFullView(BuildContext context) {
-  return ListView(
-    children: [
-      const TextView(
-        text: constants.topRated,
-      ),
-      _topRatedMoviesBloc(),
-      const TextView(
-        text: constants.newMovies,
-      ),
-      _LatestMoviesBloc(),
-      const TextView(
-        text: constants.popularMovies,
-      ),
-      _popularMoviesBloc(),
-      const SizedBox(
-        height: 20.0,
-      )
-    ],
+  return Scaffold(
+    body: ListView(
+      children: [
+        const TextView(
+          text: constants.topRated,
+        ),
+        _topRatedMoviesBloc(),
+        const TextView(
+          text: constants.newMovies,
+        ),
+        _LatestMoviesBloc(),
+        const TextView(
+          text: constants.popularMovies,
+        ),
+        _popularMoviesBloc(),
+        const SizedBox(
+          height: 20.0,
+        )
+      ],
+    ),
   );
 }
 /*
@@ -186,33 +189,28 @@ class TextView extends StatelessWidget {
 }
 
 Widget _createList(BuildContext context, List<Movie> movies) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(
-        height: 200.0,
-        child: ListView.builder(
-          //physics: const ClampingScrollPhysics(),
-          //shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: movies.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: GestureDetector(
-                onTap: () => context.go('/movieDetail/${movies[index].id}'),
-                child: Image(
-                  height: 200,
-                  image: NetworkImage(
-                      constants.baseUrlPosterImage + movies[index].posterPath!),
-                  fit: BoxFit.fill,
-                ),
-              ),
+  return SizedBox(
+    height: 200.0,
+    child: ListView.builder(
+      //physics: const ClampingScrollPhysics(),
+      //shrinkWrap: true,R
+      scrollDirection: Axis.horizontal,
+      itemCount: movies.length,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: GestureDetector(
+            onTap: () => context.go('/movieDetail/${movies[index].id}'),
+            child: Image(
+              height: 200,
+              image: NetworkImage(
+                  constants.baseUrlPosterImage + movies[index].posterPath!),
+              fit: BoxFit.fill,
             ),
           ),
         ),
       ),
-    ],
+    ),
   );
 }
