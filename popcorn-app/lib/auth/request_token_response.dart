@@ -1,11 +1,11 @@
-class RequestTokenResponse {
+class RequestToken {
   bool? success;
-  String? expiresAt;
+  late final String expiresAt;
   String? requestToken;
 
-  RequestTokenResponse({this.success, this.expiresAt, this.requestToken});
+  RequestToken({this.success, required this.expiresAt, this.requestToken});
 
-  RequestTokenResponse.fromJson(Map<String, dynamic> json) {
+  RequestToken.fromJson(Map<String, dynamic> json) {
     if (json["success"] is bool) {
       success = json["success"];
     }
