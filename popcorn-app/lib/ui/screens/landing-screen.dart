@@ -18,7 +18,6 @@ class _LandingScreenState extends State<LandingScreen> {
   static const List<Widget> _screens = <Widget>[
     MoviesLandingScreen(),
     ActorsScreen(),
-    SearchScreen(),
     MyProfileScreen()
   ];
 

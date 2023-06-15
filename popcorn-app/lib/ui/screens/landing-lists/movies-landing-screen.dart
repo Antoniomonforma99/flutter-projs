@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project/bloc/latest_movies/bloc/latest_movie_bloc.dart';
-import 'package:project/bloc/latest_movies/bloc/latest_movie_event.dart';
-import 'package:project/bloc/latest_movies/bloc/latest_movie_state.dart';
+import 'package:project/bloc/latest_movies/latest_movie_bloc.dart';
+import 'package:project/bloc/latest_movies/latest_movie_event.dart';
+import 'package:project/bloc/latest_movies/latest_movie_state.dart';
+
 import 'package:project/bloc/popular_movies/bloc/popular_movie_bloc.dart';
 import 'package:project/bloc/popular_movies/bloc/popular_movie_event.dart';
 import 'package:project/bloc/popular_movies/bloc/popular_movie_state.dart';
