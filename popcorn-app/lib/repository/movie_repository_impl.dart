@@ -56,4 +56,22 @@ class MovieRepositoryImpl extends MovieRepository {
       throw Exception('An error occured loading movie with id $id');
     }
   }
+
+  @override
+  Future<MovieDetail> addToWatchList(String id) async {
+    final response = await _client.post(
+        Uri.parse(
+            'https://api.themoviedb.org/3/movie/$id?api_key=${constants.apiKey}'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(<String, dynamic>{
+          'media_type': "movie",
+          'media_id': id,
+          'watchlist': true
+        }));
+    if (response.statusCode == 200) {
+      return MovieDetail.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('An error occured loading movie with id $id');
+    }
+  }
 }

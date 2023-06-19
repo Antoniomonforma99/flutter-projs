@@ -5,16 +5,12 @@ class RequestToken {
 
   RequestToken({this.success, required this.expiresAt, this.requestToken});
 
-  RequestToken.fromJson(Map<String, dynamic> json) {
-    if (json["success"] is bool) {
-      success = json["success"];
-    }
-    if (json["expires_at"] is String) {
-      expiresAt = json["expires_at"];
-    }
-    if (json["request_token"] is String) {
-      requestToken = json["request_token"];
-    }
+  factory RequestToken.fromJson(Map<String, dynamic> json) {
+    return RequestToken(
+      success: json['success'],
+      requestToken: json['request_token'],
+      expiresAt: json['expires_at'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -24,4 +20,8 @@ class RequestToken {
     _data["request_token"] = requestToken;
     return _data;
   }
+
+  Map<String, dynamic> toJson1() => {
+        'request_token': requestToken,
+      };
 }

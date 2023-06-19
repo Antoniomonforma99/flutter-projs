@@ -10,4 +10,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // TODO: implement event handler
     });
   }
+
+  void initiateLogin (String username, String password) async {
+    await log
+  }
 }

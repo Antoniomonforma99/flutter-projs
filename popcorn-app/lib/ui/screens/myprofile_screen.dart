@@ -18,11 +18,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   late ApiClient _apiClient;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late bool _isLoged;
+  late TextEditingController _usernameController, _passwordController;
 
   @override
   void initState() {
     super.initState();
     _isLoged = false;
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   @override
@@ -50,5 +53,60 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ),
       ),
     ));
+  }
+
+  Widget _logginForm() {
+    return SingleChildScrollView(
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                "Inicie Sesion",
+                textAlign: TextAlign.center,
+              )
+            ],
+            LabelFieldWidget(
+              label: ,
+            )));
+  }
+}
+
+class LabelFieldWidget extends StatelessWidget {
+  final Key? textFieldKey;
+  final String label;
+  final String hintText;
+  final bool isPasswordField;
+  final TextEditingController controller;
+
+  const LabelFieldWidget({
+    Key? key,
+    required this.label,
+    required this.hintText,
+    required this.controller,
+    this.isPasswordField = false,
+    this.textFieldKey,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label.toUpperCase(),
+            textAlign: TextAlign.start,
+          ),
+          TextField(
+            key: textFieldKey,
+            obscureText: isPasswordField,
+            obscuringCharacter: '*',
+            controller: controller,
+            decoration: InputDecoration(hintText: hintText),
+          ),
+        ],
+      ),
+    );
   }
 }
